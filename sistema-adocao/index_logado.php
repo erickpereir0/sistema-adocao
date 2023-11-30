@@ -80,7 +80,6 @@ if (!empty($_GET['meus_anuncios']) && $_GET['meus_anuncios'] == 1) {
     </div>
 
     <?php if (!empty($anuncios)) { ?>
-      <!-- Aqui que será montada a tabela com a relação de anúncios!! -->
       <div class="container">
         <table class="table table-striped">
           <thead>

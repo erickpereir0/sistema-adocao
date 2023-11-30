@@ -1,41 +1,24 @@
 <?php
 require_once 'conectaBD.php';
-// Definir o BD (e a tabela)
-// Conectar ao BD (com o PHP)
 
 session_start();
 
 if (empty($_SESSION)) {
-  // Significa que as variáveis de SESSAO não foram definidas.
-  // Não poderia acessar aqui.
   header("Location: index.php?msgErro=Você precisa se autenticar no sistema.");
   die();
 }
 
-/*
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
-die();
-*/
 
 if (!empty($_POST)) {
-  // Está chegando dados por POST e então posso tentar inserir no banco
-  // Obter as informações do formulário ($_POST)
-  // Verificar se estou tentando INSERIR (CAD) / ALTERAR (ALT) / EXCLUIR (DEL)
-  if ($_POST['enviarDados'] == 'CAD') { // CADASTRAR!!!
+  if ($_POST['enviarDados'] == 'CAD') { 
     try {
-      // Preparar as informações
-        // Montar a SQL (pgsql)
         $sql = "INSERT INTO anuncio
                   (fase, tipo, porte, sexo, pelagem_cor, raca, observacao, email_usuario)
                 VALUES
                   (:fase, :tipo, :porte, :sexo, :pelagem_cor, :raca, :observacao, :email_usuario)";
 
-        // Preparar a SQL (pdo)
         $stmt = $pdo->prepare($sql);
 
-        // Definir/organizar os dados p/ SQL
         $dados = array(
           ':fase' => $_POST['fase'],
           ':tipo' => $_POST['tipo'],
@@ -47,8 +30,6 @@ if (!empty($_POST)) {
           ':email_usuario' => $_SESSION['email']
         );
 
-        // Tentar Executar a SQL (INSERT)
-        // Realizar a inserção das informações no BD (com o PHP)
         if ($stmt->execute($dados)) {
           header("Location: index_logado.php?msgSucesso=Anúncio cadastrado com sucesso!");
         }
@@ -57,9 +38,7 @@ if (!empty($_POST)) {
         header("Location: index_logado.php?msgErro=Falha ao cadastrar anúncio..");
     }
   }
-  elseif ($_POST['enviarDados'] == 'ALT') { // ALTERAR!!!
-    /* Implementação do update aqui.. */
-    // Construir SQL para update
+  elseif ($_POST['enviarDados'] == 'ALT') {
     try {
       $sql = "UPDATE
                 anuncio
@@ -103,10 +82,7 @@ if (!empty($_POST)) {
     }
 
   }
-  elseif ($_POST['enviarDados'] == 'DEL') { // EXCLUIR!!!
-    /** Implementação do excluir aqui.. */
-    // id_anuncio ok
-    // e-mail usuário logado ok
+  elseif ($_POST['enviarDados'] == 'DEL') { 
     try {
       $sql = "DELETE FROM anuncio WHERE id = :id_anuncio AND email_usuario = :email";
       $stmt = $pdo->prepare($sql);
@@ -120,7 +96,6 @@ if (!empty($_POST)) {
         header("Location: index_logado.php?msgSucesso=Falha ao EXCLUIR anúncio..");
       }
     } catch (PDOException $e) {
-      //die($e->getMessage());
       header("Location: index_logado.php?msgSucesso=Falha ao EXCLUIR anúncio..");
     }
   }
@@ -132,6 +107,4 @@ else {
   header("Location: index_logado.php?msgErro=Erro de acesso.");
 }
 die();
-
-// Redirecionar para a página inicial (index_logado) c/ mensagem erro/sucesso
  ?>

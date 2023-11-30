@@ -54,7 +54,6 @@ if (!empty($_POST)) {
                 id = :id_anuncio AND
                 email_usuario = :email";
 
-      // Definir dados para SQL
       $dados = array(
         ':id_anuncio' => $_POST['id_anuncio'],
         ':fase' => $_POST['fase'],
@@ -69,7 +68,6 @@ if (!empty($_POST)) {
 
       $stmt = $pdo->prepare($sql);
 
-      // Executar SQL
       if ($stmt->execute($dados)) {
         header("Location: index_logado.php?msgSucesso=Alteração realizada com sucesso!!");
       }
@@ -77,7 +75,6 @@ if (!empty($_POST)) {
         header("Location: index_logado.php?msgErro=Falha ao ALTERAR anúncio..");
       }
     } catch (PDOException $e) {
-      //die($e->getMessage());
       header("Location: index_logado.php?msgErro=Falha ao ALTERAR anúncio..");
     }
 

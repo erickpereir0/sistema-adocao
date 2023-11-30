@@ -25,23 +25,18 @@ if (!empty($_GET['id_anuncio'])) {
 
     }
     else {
-      //die("Não foi encontrado nenhum registro para id_anuncio = " . $_GET['id_anuncio'] . " e e-mail = " . $_SESSION['email']);
       header("Location: index_logado.php?msgErro=Você não tem permissão para acessar esta página");
       die();
     }
 
   } catch (PDOException $e) {
     header("Location: index_logado.php?msgErro=Falha ao obter registro no banco de dados.");
-    //die($e->getMessage());
   }
 }
 else {
-  // Se entrar aqui, significa que $_GET['id_anuncio'] está vazio
   header("Location: index_logado.php?msgErro=Você não tem permissão para acessar esta página");
   die();
 }
-
-  // Redirecionar (permissão)
 
 ?>
 

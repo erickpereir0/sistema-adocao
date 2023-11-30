@@ -4,23 +4,13 @@ require_once 'conectaBD.php';
 session_start();
 
 if (empty($_SESSION)) {
-  // Significa que as variáveis de SESSAO não foram definidas.
-  // Não poderia acessar aqui.
   header("Location: index.php?msgErro=Você precisa se autenticar no sistema.");
   die();
 }
 
-/*
-echo "Estou logado";
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-die();
-*/
 $anuncios = array();
 
 if (!empty($_GET['meus_anuncios']) && $_GET['meus_anuncios'] == 1) {
-  // Obter somente os anúncios cadastrados pelo(a) usuário(a) logado(a).
   $sql = "SELECT * FROM anuncio WHERE email_usuario = :email ORDER BY id ASC";
   $dados = array(':email' => $_SESSION['email']);
 
@@ -28,7 +18,6 @@ if (!empty($_GET['meus_anuncios']) && $_GET['meus_anuncios'] == 1) {
     $stmt = $pdo->prepare($sql);
 
     if ($stmt->execute($dados)) {
-      // Execução da SQL Ok!!
       $anuncios = $stmt->fetchAll();
     }
     else {
@@ -42,15 +31,7 @@ if (!empty($_GET['meus_anuncios']) && $_GET['meus_anuncios'] == 1) {
   try {
     $stmt = $pdo->prepare($sql);
     if ($stmt->execute()) {
-      // Execução da SQL Ok!!
       $anuncios = $stmt->fetchAll();
-
-      /*
-      echo '<pre>';
-      print_r($anuncios);
-      echo '</pre>';
-      die();
-      */
     }
     else {
       die("Falha ao executar a SQL.. #2");

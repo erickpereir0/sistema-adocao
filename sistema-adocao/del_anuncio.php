@@ -4,45 +4,24 @@ require_once 'conectaBD.php';
 session_start();
 
 if (empty($_SESSION)) {
-  // Significa que as variáveis de SESSAO não foram definidas.
-  // Não poderia acessar aqui.
   header("Location: index.php?msgErro=Você precisa se autenticar no sistema.");
   die();
 }
 
-/*
-//echo "Estou logado";
-echo '<pre>';
-print_r($_SESSION);
-print_r($_GET);
-echo '</pre>';
-die();
-*/
-
 $result = array();
 
-// Verificar se está chegando a informação (id_anuncio) pelo $_GET
 if (!empty($_GET['id_anuncio'])) {
 
-    // Buscar as informações do anúncio a ser alterado (no banco de dados)
   $sql = "SELECT * FROM anuncio WHERE email_usuario = :email AND id = :id";
   try {
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute(array(':email' => $_SESSION['email'], ':id' => $_GET['id_anuncio']));
 
-    // Verificar se o usuário logado pode acessar/alterar as informações desse registro (id_anuncio)
     if ($stmt->rowCount() == 1) {
-      // Registro obtido no banco de dados
       $result = $stmt->fetchAll();
-      $result = $result[0]; // Informações do registro a ser alterado
+      $result = $result[0];
 
-      /*
-      echo '<pre>';
-      print_r($result);
-      echo '</pre>';
-      */
-      //die();
 
     }
     else {

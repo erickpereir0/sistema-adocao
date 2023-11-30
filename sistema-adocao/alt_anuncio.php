@@ -24,7 +24,7 @@ if (!empty($_GET['id_anuncio'])) {
     if ($stmt->rowCount() == 1) {
       
       $result = $stmt->fetchAll();
-      $result = $result[0]; // Informações do registro a ser alterado
+      $result = $result[0];
 
    
     }
